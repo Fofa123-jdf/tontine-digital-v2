@@ -7,7 +7,10 @@ if (!DATABASE_URL || !JWT_SECRET || JWT_SECRET.length < 32) {
   console.error('Variables requises : DATABASE_URL et JWT_SECRET (32 caractères minimum).');
   process.exit(1);
 }
-const pool = new Pool({ connectionString: DATABASE_URL, ssl: process.env.PGSSL === 'off' ? false : { rejectUnauthorized: false } });
+const SCHEMA = process.env.DB_SCHEMA || 'public';
+if (!/^[a-z_][a-z0-9_]{0,40}$/.test(SCHEMA)) { console.error('DB_SCHEMA invalide.'); process.exit(1); }
+const ssl = process.env.PGSSL === 'off' ? false : { rejectUnauthorized: false };
+const pool = new Pool({ connectionString: DATABASE_URL, ssl, options: '-c search_path=' + SCHEMA });
 const METHODS = ['Wave', 'Orange Money', 'MTN MoMo'];
 
 const app = express();
@@ -196,6 +199,7 @@ app.get('/assets/app.js', send('app.js'));
 app.get('/', (q, s) => s.send('<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tontine Digital 1.0</title><body style="font-family:system-ui;text-align:center;padding:40px"><h1>🌿 Tontine Digital 1.0</h1><p>Choisissez votre espace.</p><p><a href="/member/">Application Membre</a> · <a href="/admin/">Administration</a></p>'));
 
 (async () => {
+  if (SCHEMA !== 'public') { const boot = new Pool({ connectionString: DATABASE_URL, ssl }); await boot.query('CREATE SCHEMA IF NOT EXISTS ' + SCHEMA); await boot.end(); }
   await pool.query(fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8'));
   if (ADMIN_EMAIL && ADMIN_PASSWORD && ADMIN_PASSWORD.length >= 8) {
     const e = ADMIN_EMAIL.trim().toLowerCase();
