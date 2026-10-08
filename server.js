@@ -621,6 +621,8 @@ app.set('trust proxy', 1);
 app.use(helmet({ contentSecurityPolicy: false }));
 const origins = (process.env.CORS_ORIGINS || '').split(',').map((s) => s.trim()).filter(Boolean);
 app.use(cors({ origin: origins.length ? origins : false }));
+// Servir les fichiers CSS et JavaScript utilisés par member.html et admin.html.
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // Webhook Wave : corps brut nécessaire pour vérifier la signature (à vérifier dans la doc Wave)
 app.post('/webhooks/wave', express.raw({ type: '*/*', limit: '100kb' }), wrap(async (req, res) => {
