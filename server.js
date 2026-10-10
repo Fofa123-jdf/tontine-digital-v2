@@ -621,8 +621,6 @@ app.set('trust proxy', 1);
 app.use(helmet({ contentSecurityPolicy: false }));
 const origins = (process.env.CORS_ORIGINS || '').split(',').map((s) => s.trim()).filter(Boolean);
 app.use(cors({ origin: origins.length ? origins : false }));
-// Servir les fichiers CSS et JavaScript utilisés par member.html et admin.html.
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // Webhook Wave : corps brut nécessaire pour vérifier la signature (à vérifier dans la doc Wave)
 app.post('/webhooks/wave', express.raw({ type: '*/*', limit: '100kb' }), wrap(async (req, res) => {
@@ -660,6 +658,7 @@ app.use('/api/admin', require('./routes/admin'));
 app.use('/api', require('./routes/member'));
 
 app.get('/health', wrap(async (req, res) => { await q('SELECT 1'); res.json({ ok: true }); }));
+app.get('/ping', (req, res) => res.type('html').send('<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tontine Digital</title><body style="font-family:sans-serif;padding:24px"><h1>Tontine Digital 1.0</h1><p>Le serveur répond.</p><p><a href="/member/">Espace membre</a> · <a href="/admin/">Administration</a> · <a href="/health">État</a></p></body>'));
 const page = (file) => (req, res) => res.sendFile(path.join(__dirname, file));
 app.get(['/member', '/member/'], page('member.html'));
 app.get(['/admin', '/admin/'], page('admin.html'));
