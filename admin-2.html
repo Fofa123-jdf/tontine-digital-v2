@@ -1,0 +1,149 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="robots" content="noindex"><title>Tontine Digital — Administration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800&family=Baloo+2:wght@800&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#effaf3;--card:#fff;--tx:#14312a;--mu:#5f7a70;--g:#0a9b6e;--gd:#066b4c;--gold:#f5b92e;--bd:#d6eadf;--ok:#dcf5e8;--okt:#066b4c;--sh:0 6px 18px rgba(8,100,70,.12)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1a15;--card:#16251e;--tx:#e6f3ed;--mu:#9bb8ab;--bd:#254036;--ok:#14382b;--okt:#8fe8c4;--sh:none}}
+:root[data-theme="dark"]{--bg:#0d1a15;--card:#16251e;--tx:#e6f3ed;--mu:#9bb8ab;--bd:#254036;--ok:#14382b;--okt:#8fe8c4;--sh:none}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 Nunito,system-ui,-apple-system,'Segoe UI',sans-serif;padding-bottom:100px}
+#app{max-width:560px;margin:auto;padding:0 14px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 0;gap:8px}
+.logo{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800}
+.lg{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--g),var(--gd));color:var(--gold);display:grid;place-items:center}
+.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.sw{display:flex;background:var(--card);border-radius:999px;padding:3px;box-shadow:var(--sh)}
+.sw button{border:0;background:none;color:var(--mu);padding:6px 14px;border-radius:999px;font:700 13px Nunito,sans-serif;cursor:pointer}
+.sw .on,.tabs .on{background:var(--g);color:#fff}
+.tabs{display:flex;background:var(--bg);border-radius:12px;padding:3px;margin-bottom:10px}.tabs button{flex:1;border:0;background:none;color:var(--mu);padding:9px;border-radius:10px;font:700 14px Nunito,sans-serif;cursor:pointer}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0a9b6e,#066b4c);color:#fff;border-radius:24px;padding:20px;min-height:160px;margin:6px 0 14px;box-shadow:var(--sh)}
+.hero h2{margin:4px 0;font-size:25px;font-weight:800;max-width:62%}.hero p{margin:2px 0;max-width:62%;opacity:.92}
+.art{position:absolute;right:-6px;bottom:0;width:48%}
+.c{background:var(--card);border-radius:18px;padding:16px;margin:12px 0;box-shadow:var(--sh);overflow-wrap:anywhere}
+h3{margin:0 0 6px;font-size:19px;font-weight:800}
+input,select{width:100%;padding:12px;margin:5px 0;border:2px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx);font:inherit}
+input:focus,select:focus{outline:none;border-color:var(--g)}
+.b{width:100%;padding:13px;margin-top:8px;border:0;border-radius:14px;background:linear-gradient(135deg,var(--g),var(--gd));color:#fff;font:800 15px Nunito,sans-serif;cursor:pointer;box-shadow:0 4px 12px rgba(8,100,70,.3)}
+.l{background:none;border:0;color:var(--g);padding:8px;font:800 14px Nunito,sans-serif;cursor:pointer}
+.mu{color:var(--mu);margin:4px 0}small.mu{font-size:12px}
+.msg{background:var(--ok);color:var(--okt);padding:12px;border-radius:14px;margin:8px 0;font-weight:700}.w{background:#fff1c9;color:#6b4e00}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:12px}.g .c{margin:0}.g .c b{font-size:18px}
+.tile{background:var(--card);border:0;border-radius:18px;padding:16px 10px;font:800 14px Nunito,sans-serif;color:var(--tx);cursor:pointer;box-shadow:var(--sh);display:flex;flex-direction:column;align-items:center;gap:10px}
+.ic{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;color:#fff}.ic .i{width:26px;height:26px}
+nav{position:fixed;bottom:calc(8px + env(safe-area-inset-bottom,0px));left:8px;right:8px;max-width:544px;margin:0 auto;display:flex;background:var(--card);border-radius:24px;box-shadow:0 8px 28px rgba(8,100,70,.22);padding:6px}
+nav button{flex:1;border:0;background:none;color:var(--mu);padding:7px 0;border-radius:18px;font:700 11px Nunito,sans-serif;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
+nav br{display:none}nav .on{background:var(--ok);color:var(--g)}
+.ok{color:var(--g);font-weight:800}.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--bd)}.row:last-child{border:0}
+.ck{display:flex;gap:8px;align-items:center;margin:8px 0}.ck input{width:auto}
+.wel{position:fixed;inset:0;z-index:5;overflow:auto;display:flex;padding:calc(20px + env(safe-area-inset-top,0px)) 20px 24px;background:radial-gradient(circle at 50% 28%,#1b6fd6 0%,#0b4fa8 42%,#052a63 100%);color:#fff;text-align:center}
+.wt{font:800 56px/.95 'Baloo 2',Nunito,sans-serif;transform:skewX(-8deg);text-shadow:0 4px 0 rgba(0,0,0,.25)}
+.wt2{display:flex;justify-content:center;align-items:center;gap:10px;transform:skewX(-8deg)}.wt2 span{font:800 50px/1 'Baloo 2',Nunito,sans-serif;color:#fbbf24;text-shadow:0 4px 0 rgba(0,0,0,.25)}.wt2 i{font:800 18px Nunito,sans-serif;font-style:normal;background:#16a34a;padding:2px 10px;border-radius:8px;margin-top:12px}
+.wtag{font-size:18px;font-weight:700;margin:12px 0 8px}.wbar{display:flex;gap:6px;justify-content:center}.wbar b{width:56px;height:4px;border-radius:2px}
+.wcap{font-size:12px;font-weight:700;letter-spacing:.12em;color:#d4e6ff;margin:10px 0 22px}
+.bg,.bo{width:100%;height:54px;margin-top:12px;border-radius:18px;font:800 17px Nunito,sans-serif;cursor:pointer}.bg{border:0;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#0b2a5c;box-shadow:0 8px 20px rgba(245,158,11,.4)}.bo{border:2px solid rgba(255,255,255,.7);background:rgba(255,255,255,.08);color:#fff}
+body{background:radial-gradient(circle at 50% 18%,#1b6fd6 0%,#0b4fa8 45%,#052a63 100%);background-attachment:fixed;min-height:100vh}
+#app{position:relative;z-index:1}
+.logo{color:#fff}
+.bgart{position:fixed;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:.13}
+.bgart svg{width:min(130vw,640px)!important;max-width:none!important;height:auto!important}
+</style><style>#app{max-width:760px}</style></head><body><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14c2.8 0 4.5 1.8 4.5 4.5"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 10h19M6.5 15h3"/></symbol>
+<symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v4h4M12 8v4l3 2"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V11M10 20V4M16 20v-6M22 20H2"/></symbol>
+<symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 10l9-6 9 6M5 10v8M10 10v8M14 10v8M19 10v8M3 20h18"/></symbol>
+<symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="4" rx="1"/><path d="M5 13v8h14v-8M12 9v12M12 9c-2-4-6-3-5 0M12 9c2-4 6-3 5 0"/></symbol>
+<symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v9M9.5 10h4a1.5 1.5 0 010 3h-3a1.5 1.5 0 000 3h4"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0112 0v6l1.5 2h-15z"/><path d="M10 21h4"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+</defs></svg><div id="app"></div>
+<div id="ov" class="wel" style="display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(5,20,50,.92)"></div>
+<script>
+const TREE=`<svg viewBox="0 0 340 330" style="width:100%;max-width:340px;height:auto" role="img" aria-label="Un arbre qui produit des pièces, porté par une main, entouré de membres de la communauté et d'un téléphone">
+<defs>
+<linearGradient id="gd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="#f59e0b"/></linearGradient>
+<g id="coin"><circle r="11" fill="url(#gd)" stroke="#b45309" stroke-width="2"/><circle r="7.5" fill="none" stroke="#b45309" stroke-width="1.2" opacity=".7"/><text y="4" text-anchor="middle" font-size="11" font-weight="800" fill="#b45309" font-family="Baloo 2,sans-serif">F</text></g>
+<g id="spark"><path d="M0-9L2.4-2.4 9 0 2.4 2.4 0 9-2.4 2.4-9 0-2.4-2.4z" fill="#fde68a"/></g>
+</defs>
+<circle cx="170" cy="165" r="158" fill="#06306b" opacity=".55" stroke="#f7b500" stroke-width="6"/>
+<use href="#spark" x="62" y="78"/><use href="#spark" x="118" y="34" transform="translate(0 0)"/><use href="#spark" x="296" y="170"/>
+<path d="M52 238C70 302 270 302 288 238 262 268 230 276 170 276 110 276 78 268 52 238z" fill="#fbbf24"/>
+<path d="M150 258C154 222 150 196 140 168L200 168C190 196 186 222 190 258z" fill="#92400e"/>
+<g stroke="#92400e" stroke-width="9" stroke-linecap="round" fill="none"><path d="M168 196L122 150"/><path d="M172 196L220 148"/><path d="M170 178V128"/></g>
+<circle cx="170" cy="96" r="46" fill="#1f9d4a"/><circle cx="122" cy="124" r="34" fill="#2dbb55"/><circle cx="218" cy="124" r="34" fill="#1d9a45"/><circle cx="148" cy="72" r="31" fill="#34c759"/><circle cx="196" cy="70" r="31" fill="#2dbb55"/><circle cx="170" cy="130" r="34" fill="#25a84f"/>
+<circle cx="140" cy="62" r="10" fill="#6ee7a0" opacity=".5"/>
+<use href="#coin" transform="translate(140 92) scale(1.15)"/><use href="#coin" transform="translate(198 80) scale(1.15)"/><use href="#coin" transform="translate(170 118) scale(1.25)"/><use href="#coin" transform="translate(112 128)"/><use href="#coin" transform="translate(228 128)"/><use href="#coin" transform="translate(166 50)"/><use href="#coin" transform="translate(212 108)"/>
+<use href="#coin" transform="translate(104 178) scale(.9)"/><use href="#coin" transform="translate(238 186) scale(.9)"/><use href="#coin" transform="translate(206 214) scale(.8)"/>
+<g fill="url(#gd)" stroke="#b45309" stroke-width="2"><ellipse cx="170" cy="266" rx="32" ry="8"/><ellipse cx="170" cy="258" rx="32" ry="8"/><ellipse cx="170" cy="250" rx="32" ry="8"/></g>
+<circle cx="58" cy="152" r="17" fill="#2fb344"/><path d="M28 238c0-36 12-54 30-54s30 18 30 54z" fill="#2fb344"/>
+<circle cx="282" cy="152" r="17" fill="#3b82f6"/><path d="M252 238c0-36 12-54 30-54s30 18 30 54z" fill="#3b82f6"/>
+<g transform="rotate(14 292 92)"><rect x="268" y="52" width="46" height="80" rx="9" fill="#0b3a8f" stroke="#9cc4ff" stroke-width="3"/><circle cx="291" cy="94" r="13" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M285 94l5 5 9-10" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+</svg>`;
+window.API_BASE = window.API_BASE || '';
+document.body.insertAdjacentHTML('afterbegin', '<div class="bgart" aria-hidden="true">' + TREE + '</div>');
+const API = window.API_BASE + '/api', $ = (i) => document.getElementById(i), V = (i) => ($(i).value || '').trim();
+const f = (n) => Number(n).toLocaleString('fr-FR') + ' FCFA';
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const I = (n) => `<svg class="i"><use href="#i-${n}"/></svg>`;
+const NA = [['dash', 'chart', 'Tableau'], ['mem', 'users', 'Membres'], ['tont', 'bank', 'Tontines'], ['pay', 'card', 'Paiements'], ['set', 'settings', 'Réglages']];
+const ST = { pending: 'en attente', active: 'actif', refused: 'refusé', suspended: 'suspendu' };
+let T = null, tab = 'dash', msg = '';
+try { T = localStorage.getItem('td_admin'); } catch (e) {}
+async function api(p, o) {
+  o = o || {};
+  const h = { 'Content-Type': 'application/json' };
+  if (T) h.Authorization = 'Bearer ' + T;
+  let r;
+  try { r = await fetch(API + p, { method: o.m || 'GET', headers: h, body: o.b ? JSON.stringify(o.b) : undefined }); }
+  catch (e) { throw new Error('Connexion impossible.'); }
+  let d = {};
+  try { d = await r.json(); } catch (e) {}
+  if (!r.ok) { if (r.status == 401 && T && p != '/auth/login') out(); throw new Error(d.error || 'Erreur (' + r.status + ')'); }
+  return d;
+}
+function er(m) { const e = $('err'); if (e) { e.textContent = m; e.hidden = false; } }
+async function wait(fn) { try { await fn(); } catch (e) { er(e.message); } }
+function out() { T = null; try { localStorage.removeItem('td_admin'); } catch (e) {} R(); }
+function go(t) { tab = t; R(); }
+async function log() {
+  const d = await api('/auth/login', { m: 'POST', b: { phone: V('t'), password: $('p').value } });
+  if (d.user.role != 'admin') throw new Error('Accès réservé aux administrateurs.');
+  T = d.token; try { localStorage.setItem('td_admin', T); } catch (e) {} R();
+}
+async function setSt(id, st) { let reason; if (st == 'refused') reason = prompt('Motif du refus (envoyé au membre) :') || undefined; await api('/admin/users/' + id + '/status', { m: 'POST', b: { status: st, reason } }); R(); }
+async function doc(id) {
+  const r = await fetch(API + '/admin/users/' + id + '/document', { headers: { Authorization: 'Bearer ' + T } });
+  if (!r.ok) throw new Error('Aucune photo pour ce membre.');
+  const u = URL.createObjectURL(await r.blob()), o = $('ov');
+  o.innerHTML = `<img src="${u}" alt="Pièce d'identité" style="max-width:100%;max-height:78vh;border-radius:12px"><button class="bo" style="max-width:240px" onclick="$('ov').style.display='none'">Fermer</button>`;
+  o.style.display = 'flex';
+}
+async function addT() { await api('/admin/tontines', { m: 'POST', b: { name: V('tn'), amount: +V('ta'), frequency: V('tf'), max_members: +V('tm') || 20 } }); R(); }
+async function act(id, a) { if (a == 'draw' && !confirm('Tirer au sort l’ordre des bénéficiaires et démarrer la tontine ?')) return; await api('/admin/tontines/' + id + '/' + a, { m: 'POST' }); R(); }
+async function saveSet() { await api('/admin/settings', { m: 'PUT', b: { commission_mode: V('cm'), platform_rate: +V('pr') / 100, referral_rate: +V('rr') / 100 } }); msg = 'Réglages enregistrés.'; R(); }
+const userRow = (u, acts) => `<div class="row"><span><b>${esc(u.name)}</b><br><small class="mu">${esc(u.phone)} · ${esc(u.doc_type || '')} ${esc(u.doc_number || '')} · ${ST[u.status]}${u.has_document ? '' : ' · sans photo'}</small></span><span>${u.has_document ? `<button class="l" onclick="wait(()=>doc(${u.id}))">Pièce</button>` : ''}${acts}</span></div>`;
+async function P() {
+  if (tab == 'dash') {
+    const [s, u] = await Promise.all([api('/admin/stats'), api('/admin/users?status=pending')]);
+    return `<div class="g"><div class="c"><b>${s.members}</b><p class="mu">Membres</p></div><div class="c"><b>${s.pending}</b><p class="mu">À valider</p></div><div class="c"><b>${f(s.collected)}</b><p class="mu">Collecté</p></div><div class="c"><b>${f(s.fees)}</b><p class="mu">Commissions</p></div></div><div class="c"><h3>Inscriptions à valider</h3>${u.users.map((x) => userRow(x, `<button class="l" onclick="wait(()=>setSt(${x.id},'active'))">Valider</button><button class="l" onclick="wait(()=>setSt(${x.id},'refused'))">Refuser</button>`)).join('') || '<p class="mu">Aucune inscription en attente.</p>'}</div>`;
+  }
+  if (tab == 'mem') return `<div class="c"><h3>Membres</h3>${(await api('/admin/users')).users.map((x) => userRow(x, x.status == 'active' ? `<button class="l" onclick="wait(()=>setSt(${x.id},'suspended'))">Suspendre</button>` : `<button class="l" onclick="wait(()=>setSt(${x.id},'active'))">Activer</button>`)).join('') || '<p class="mu">Aucun membre.</p>'}</div>`;
+  if (tab == 'tont') return `<div class="c"><h3>Créer une tontine</h3><input id="tn" placeholder="Nom"><input id="ta" type="number" inputmode="numeric" placeholder="Cotisation (FCFA, 500 minimum)"><select id="tf"><option value="semaine">Chaque semaine</option><option value="mois">Chaque mois</option></select><input id="tm" type="number" placeholder="Nombre maximum de membres (20 par défaut)"><button class="b" onclick="wait(addT)">Créer la tontine</button></div>` + (await api('/admin/tontines')).tontines.map((x) => `<div class="c"><b>${esc(x.name)}</b><p class="mu">${f(x.amount)} par ${x.frequency} · ${x.members}/${x.max_members} membre(s) · ${{ open: 'ouverte', running: 'tour ' + x.current_round, closed: 'terminée' }[x.status]}</p>${x.status == 'open' ? `<button class="b" onclick="wait(()=>act(${x.id},'draw'))">Tirer l'ordre et démarrer</button>` : ''}${x.status == 'running' ? `<button class="b" onclick="wait(()=>act(${x.id},'next-round'))">Passer au tour suivant</button>` : ''}</div>`).join('');
+  if (tab == 'pay') return `<div class="c"><h3>Paiements</h3>${(await api('/admin/payments')).payments.map((x) => `<div class="row"><span>${esc(x.member)} — ${esc(x.tontine)}<br><small class="mu">${new Date(x.created_at).toLocaleString('fr-FR')} · ${esc(x.method)} · ${{ paid: 'payé', pending: 'en attente', failed: 'échoué' }[x.status]}</small></span><b>${f(x.amount + x.fee)}</b></div>`).join('') || '<p class="mu">Aucun paiement.</p>'}</div>`;
+  const s = (await api('/admin/settings')).settings;
+  return `<div class="c"><h3>Commissions</h3><label class="mu">Commission plateforme appliquée</label><select id="cm"><option value="first" ${s.commission_mode == 'first' ? 'selected' : ''}>À la première cotisation seulement</option><option value="each" ${s.commission_mode == 'each' ? 'selected' : ''}>À chaque cotisation</option></select><label class="mu">Taux plateforme (%)</label><input id="pr" type="number" step="0.1" value="${+s.platform_rate * 100}"><label class="mu">Taux de parrainage (%)</label><input id="rr" type="number" step="0.1" value="${+s.referral_rate * 100}"><button class="b" onclick="wait(saveSet)">Enregistrer</button></div><button class="b" onclick="out()">Se déconnecter</button>`;
+}
+async function R() {
+  const m = msg; msg = '';
+  const banner = `<div id="err" class="msg" ${m ? '' : 'hidden'}>${esc(m)}</div>`;
+  const top = `<div class="top"><div class="logo"><span class="lg">${I('coin')}</span>Administration</div></div>`;
+  if (!T) { $('app').innerHTML = `${top}${banner}<div class="c"><h3>Connexion administrateur</h3><input id="t" inputmode="tel" placeholder="Téléphone"><input id="p" type="password" placeholder="Mot de passe"><button class="b" onclick="wait(log)">Se connecter</button></div>`; return; }
+  let b; try { b = await P(); } catch (e) { b = `<div class="msg w">${esc(e.message)}</div>`; }
+  $('app').innerHTML = `${top}${banner}${b}<nav>${NA.map((n) => `<button class="${tab == n[0] ? 'on' : ''}" onclick="go('${n[0]}')">${I(n[1])}<br>${n[2]}</button>`).join('')}</nav>`;
+}
+R();
+</script></body></html>
