@@ -691,11 +691,22 @@ app.use((e, req, res, next) => {
 
 async function ensureAdmin() {
   const phone = normPhone(process.env.ADMIN_PHONE), pw = process.env.ADMIN_PASSWORD;
-  if (!phone || !pw) return;
-  if ((await q('SELECT 1 FROM users WHERE phone=$1', [phone])).rows[0]) return;
+  if (!phone || !pw) {
+    console.log('Compte administrateur non initialisé : ADMIN_PHONE ou ADMIN_PASSWORD absent.');
+    return;
+  }
+  const passwordHash = await bcrypt.hash(pw, 10);
+  const existing = (await q('SELECT id, role FROM users WHERE phone=$1', [phone])).rows[0];
+  if (existing) {
+    await q(
+      "UPDATE users SET name=$1, password_hash=$2, role='admin', status='active' WHERE phone=$3",
+      [process.env.ADMIN_NAME || 'Administrateur', passwordHash, phone]);
+    console.log('Compte administrateur initialisé/mis à jour.');
+    return;
+  }
   await q(
     "INSERT INTO users(name,birth_date,phone,password_hash,role,status,ref_code) VALUES($1,'1990-01-01',$2,$3,'admin','active','TDADMIN')",
-    [process.env.ADMIN_NAME || 'Administrateur', phone, await bcrypt.hash(pw, 10)]);
+    [process.env.ADMIN_NAME || 'Administrateur', phone, passwordHash]);
   console.log('Compte administrateur créé.');
 }
 
